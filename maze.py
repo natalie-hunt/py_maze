@@ -10,6 +10,25 @@
 
 import sys
 import pygame
-import cell
+import random
+from cell import *
 
-WIDTH, HEIGHT, ALGORITHM = sys.argv[1:4] # throw away any extra arguments
+def main():
+
+	WIDTH, HEIGHT, ALGORITHM = sys.argv[1:4] # throw away any extra arguments
+	
+	grid = Grid(WIDTH, HEIGHT)
+
+
+def create_dfs(grid):
+	'Creates a maze using a randomized depth-first search algorithm'
+
+	# randomly choose a starting location on the west edge
+	cell = grid.getCell(0, random.randint(0, grid.h-1))
+	cell.removeWall(3) # remove the west wall
+	
+	s = list()
+	s.append(cell)
+	while len(s) > 0:
+		cell = s.pop()
+

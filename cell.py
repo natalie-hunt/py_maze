@@ -8,13 +8,15 @@ class Cell:
 		self.y = y
 		self.walls = [1,1,1,1]
 		self.grid = grid
+		self.color = 'white' # white, gray, or black for DFS
 
 	def removeWall(self, loc):
 		'removes the north, east, south, or west cell wall with loc=0, 1, 2, or 3, respectively'
 		
 		self.walls[loc] = 0
 		# also remove the wall from the neighbor cell
-		self.getNeighbors()[loc].walls[(loc + 2) % 4] = 0
+		if self.getNeighbors()[loc] is not None:
+			self.getNeighbors()[loc].walls[(loc + 2) % 4] = 0
 
 	def removeWallBetween(self, other):
 		'removes the wall between the calling cell and other'
@@ -36,9 +38,9 @@ class Cell:
 		'Returns true iff self and other are neighbors and there is not a wall between them'
 
 		return ((self.x + 1 == other.x and not self.walls[1]) or
-		       (self.x - 1 == other.x and not self.walls[3]) or
-		       (self.y + 1 == other.y and not self.walls[0]) or
-		       (self.y - 1 == other.y and not self.walls[2]))
+		        (self.x - 1 == other.x and not self.walls[3]) or
+		        (self.y + 1 == other.y and not self.walls[0]) or
+		        (self.y - 1 == other.y and not self.walls[2]))
 
 	def getNeighbors(self):
 		
@@ -60,6 +62,8 @@ class Grid:
 			self.cells.append([])
 			for j in range(h):
 				self.cells[i].append(Cell(i, j, self))
+		self.w = w
+		self.h = h
 
 	def getCell(self, x, y):
 		'Return the cell object with coordinates x, y. If none exists, return None'
