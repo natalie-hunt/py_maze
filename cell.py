@@ -8,7 +8,8 @@ class Cell:
 		self.y = y
 		self.walls = [1,1,1,1]
 		self.grid = grid
-		self.color = 'white' # white, gray, or black for DFS
+		self.discovered = False
+		self.exit = False
 
 	def removeWall(self, loc):
 		'removes the north, east, south, or west cell wall with loc=0, 1, 2, or 3, respectively'

@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"marg",
+				"margin-right"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
 				"rem",
 				"removeWallBetween"
 			],
@@ -24,19 +40,18 @@
 	"buffers":
 	[
 		{
-			"file": "maze.py",
-			"settings":
-			{
-				"buffer_size": 792,
-				"line_ending": "Windows",
-				"name": "# Prim's Algorithm Maze Generation"
-			}
-		},
-		{
 			"file": "cell.py",
 			"settings":
 			{
 				"buffer_size": 3412,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "maze.py",
+			"settings":
+			{
+				"buffer_size": 792,
 				"line_ending": "Windows"
 			}
 		}
@@ -44,11 +59,15 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 0.0,
+		"height": 81.0,
 		"selected_items":
 		[
+			[
+				"sscss",
+				"Set Syntax: CSS"
+			]
 		],
-		"width": 0.0
+		"width": 392.0
 	},
 	"console":
 	{
@@ -65,6 +84,18 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Nathan/Documents/Code/AudioCity/css/custom.css",
+		"/C/Users/Nathan/Documents/Code/AudioCity/bootstrap/css/cover.css",
+		"/C/Users/Nathan/Documents/Code/AudioCity/index.html",
+		"/C/Users/Nathan/Documents/Code/AudioCity/about.html",
+		"/C/Users/Nathan/Documents/Code/AudioCity/bootstrap/css/justified-nav.css",
+		"/C/Users/Nathan/Documents/Code/AudioCity/about2.html",
+		"/C/Users/Nathan/Documents/Code/AudioCity/css/custom",
+		"/C/Users/Nathan/Documents/Code/AudioCity/bootstrap/css/bootstrap.min.css",
+		"/C/Users/Nathan/Documents/Code/kyle site/index.html",
+		"/C/Users/Nathan/Documents/Code/kyle site/cover.css",
+		"/C/Users/Nathan/Documents/Code/prims_maze/cell.py",
+		"/C/Users/Nathan/Documents/Code/prims_maze/maze.py",
 		"/C/Users/Nathan/Documents/Code/ncbi/ncbi_wrapper.py"
 	],
 	"find":
@@ -83,6 +114,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"section",
+			"article",
+			"Sounds of Charlottesville",
 			"startCell"
 		],
 		"highlight": true,
@@ -101,39 +135,11 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "maze.py",
-					"settings":
-					{
-						"buffer_size": 792,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								724,
-								724
-							]
-						],
-						"settings":
-						{
-							"auto_name": "# Prim's Algorithm Maze Generation",
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 135.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "cell.py",
 					"settings":
 					{
@@ -144,8 +150,35 @@
 						"selection":
 						[
 							[
-								1291,
-								1291
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "maze.py",
+					"settings":
+					{
+						"buffer_size": 792,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								773,
+								773
 							]
 						],
 						"settings":
