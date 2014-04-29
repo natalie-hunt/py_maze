@@ -8,6 +8,30 @@
 # Where WIDTH and HEIGHT are the width and height of the graph used to generate the maze
 # and ALGORITHM is the algorithm used to generate the maze
 
+'''
+Invictus
+
+Out of the night that covers me,
+Black as the pit from pole to pole,
+I thank whatever gods may be
+for my unconquerable soul.
+
+In the fell clutch of circumstance
+I have not winced nor cried aloud.
+Under the bludgeonings of chance
+my head is bloody but unbowed.
+
+Beyond this place of wrath and tears
+looms but the horror of the shade
+And yet the menace of the years
+finds, and shall find, me unafraid.
+
+It matters not how straight the gate,
+how charged with punishments the scroll;
+I am the master of my fate:
+I am the captain of my soul.
+'''
+
 import sys
 import pygame
 import random
@@ -31,13 +55,13 @@ def drawCell(cell, active=False, initialize=False):
 	if active:
 		cellSurf.fill(RED)
 	elif cell.discovered:
-		cellSurf.fill(BLACK)
+		cellSurf.fill(WHITE)
 	else:
 		cellSurf.fill(DGRAY)
 	
 	# draw walls
 	if cell.discovered:
-		wallColor = WHITE
+		wallColor = BLACK
 	else:
 		wallColor = LGRAY
 
@@ -53,10 +77,16 @@ def drawCell(cell, active=False, initialize=False):
 		pygame.draw.rect(cellSurf, wallColor, (0, 0, CELLSIZE/WALLTHICKNESS, CELLSIZE))
 
 	windowSurfaceObj.blit(cellSurf, (x, y))
+	pygame.display.update()
 	if not initialize: # avoid slowing down the initial population of the grid
-		pygame.display.update()
+		checkQuit()
 		fpsClock.tick(FPS)
 
+def checkQuit():
+	for event in pygame.event.get():
+			if event.type == QUIT:			
+				pygame.quit()
+				sys.exit()
 
 ##################################
 ### Maze Generation Algorithms ###
@@ -72,21 +102,30 @@ def create_dfs(grid):
 	
 	s = list()
 	s.append(cell)
+	s.append(cell)
 	while len(s) > 0:
-		prev = cell
 		cell = s.pop()
-		drawCell(prev)
+		prev = s.pop()
 		drawCell(cell, True)
+		drawCell(cell, False, True) # Draw twice: once to get the red cursor, next to get rid of it
 		if not cell.discovered:
 			cell.discovered = True
 			cell.removeWallBetween(prev)
 			drawCell(prev)
-			drawCell(cell, True)
+			drawCell(cell)
 			neighbors = cell.getNeighbors()
 			random.shuffle(neighbors) # choose randomly where to go next
 			neighbors = [n for n in neighbors if n is not None]
 			for n in neighbors:
+				s.append(cell)
 				s.append(n)
+	
+	# make the exit on the east edge
+	cell = grid.getCell(grid.w-1, random.randint(0, grid.h-1))
+	cell.removeWall(1) # Remove the east wall
+	cell.exit = True
+	drawCell(cell)
+			
 
 
 ######################################
@@ -120,7 +159,7 @@ if __name__ == "__main__":
 	# ===============================
 	windowSurfaceObj = pygame.display.set_mode((CELLSIZE*WIDTH, CELLSIZE*HEIGHT))
 	fpsClock = pygame.time.Clock() # Limit update speed
-	FPS = 2
+	FPS = 30
 
 	# Set up display
 	pygame.display.set_caption('Maze Generation')
@@ -134,16 +173,11 @@ if __name__ == "__main__":
 			drawCell(cell, False, True)
 	pygame.display.update()
 
-	for i in range(0, 10):
+	for i in range(0, 2*FPS): # wait two seconds before starting
 		fpsClock.tick(FPS)
 
 	create_dfs(grid)
 
 	while True:
-		for event in pygame.event.get():
-			if event.type == QUIT:			
-				pygame.quit()
-				sys.exit()
-
-		pygame.display.update()
+		checkQuit()
 		fpsClock.tick(FPS)
