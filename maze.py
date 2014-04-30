@@ -8,34 +8,12 @@
 # Where WIDTH and HEIGHT are the width and height of the graph used to generate the maze
 # and ALGORITHM is the algorithm used to generate the maze
 
-'''
-Invictus
-
-Out of the night that covers me,
-Black as the pit from pole to pole,
-I thank whatever gods may be
-for my unconquerable soul.
-
-In the fell clutch of circumstance
-I have not winced nor cried aloud.
-Under the bludgeonings of chance
-my head is bloody but unbowed.
-
-Beyond this place of wrath and tears
-looms but the horror of the shade
-And yet the menace of the years
-finds, and shall find, me unafraid.
-
-It matters not how straight the gate,
-how charged with punishments the scroll;
-I am the master of my fate:
-I am the captain of my soul.
-'''
 
 import sys
 import pygame
 import random
 from pygame.locals import *
+from collections import deque
 from cell import *
 
 def drawCell(cell, active=False, initialize=False):
@@ -82,17 +60,12 @@ def drawCell(cell, active=False, initialize=False):
 		checkQuit()
 		fpsClock.tick(FPS)
 
-def checkQuit():
-	for event in pygame.event.get():
-			if event.type == QUIT:			
-				pygame.quit()
-				sys.exit()
 
 ##################################
 ### Maze Generation Algorithms ###
 ##################################
 
-def create_dfs(grid):
+def dfs(grid):
 	'Creates a maze using a randomized depth-first search algorithm'
 
 	# randomly choose a starting location on the west edge
@@ -126,11 +99,50 @@ def create_dfs(grid):
 	cell.exit = True
 	drawCell(cell)
 			
+def bfs(grid):
+	'Creates a maze using a randomized breadth-first search algorithm'
 
+	# randomly choose a starting location on the west edge
+	cell = grid.getCell(random.randint(0, grid.w-1), random.randint(0, grid.h-1))
+	cell.discovered = True
+
+	q = deque()
+	q.append(cell)
+
+	while len(q) > 0:
+		cell = q.popleft()
+		drawCell(cell)
+		neighbors = cell.getNeighbors()
+		random.shuffle(neighbors)
+		neighbors = [n for n in neighbors if n is not None]
+		for n in neighbors:
+			if not n.discovered:
+				n.discovered = True
+				cell.removeWallBetween(n)
+				drawCell(cell)
+				drawCell(n, True)
+				q.append(n)
+
+
+
+
+
+
+def kruskal():
+	pass
+
+def prim():
+	pass
 
 ######################################
 ######### Main control code ##########
 ######################################
+
+def checkQuit():
+	for event in pygame.event.get():
+			if event.type == QUIT:			
+				pygame.quit()
+				sys.exit()
 
 if __name__ == "__main__":
 
@@ -142,6 +154,18 @@ if __name__ == "__main__":
 	if len(sys.argv) != 4:
 		print "Exactly three arguments are required: grid width, grid height, and algorithm choice."
 		sys.exit()
+
+	# Generation algorithms
+	options = {
+		"DFS" : dfs,
+		"BFS" : bfs,
+		"Kruskal" : kruskal,
+		"Prim" : prim,
+	}
+
+	if ALGORITHM not in options.keys():
+		print "Sorry, the algorithm '{0}' is not recognized. Available choices are {1}".format(ALGORITHM, ", ".join(options.keys()))
+		sys.exit() 
 
 	pygame.init() # must come before any other pygame calls
 
@@ -159,7 +183,7 @@ if __name__ == "__main__":
 	# ===============================
 	windowSurfaceObj = pygame.display.set_mode((CELLSIZE*WIDTH, CELLSIZE*HEIGHT))
 	fpsClock = pygame.time.Clock() # Limit update speed
-	FPS = 30
+	FPS = 300
 
 	# Set up display
 	pygame.display.set_caption('Maze Generation')
@@ -176,7 +200,7 @@ if __name__ == "__main__":
 	for i in range(0, 2*FPS): # wait two seconds before starting
 		fpsClock.tick(FPS)
 
-	create_dfs(grid)
+	options[ALGORITHM](grid)
 
 	while True:
 		checkQuit()
