@@ -100,9 +100,9 @@ def dfs(grid):
 	drawCell(cell)
 			
 def bfs(grid):
-	'Creates a maze using a randomized breadth-first search algorithm'
+	'Creates a maze using a randomized breadth-first search algorithm. Note these are not difficult mazes.'
 
-	# randomly choose a starting location on the west edge
+	# randomly choose a starting location
 	cell = grid.getCell(random.randint(0, grid.w-1), random.randint(0, grid.h-1))
 	cell.discovered = True
 
@@ -123,16 +123,16 @@ def bfs(grid):
 				drawCell(n, True)
 				q.append(n)
 
-
-
-
-
-
-def kruskal():
-	pass
-
-def prim():
-	pass
+	# choose entrance and exit
+	entrance = grid.getCell(0, random.randint(0, grid.h-1))
+	entrance.exit = True
+	entrance.removeWall(3)
+	drawCell(entrance)
+	exit = grid.getCell(grid.w-1, random.randint(0, grid.h-1))
+	exit.exit = True
+	exit.removeWall(1)
+	drawCell(exit)
+	
 
 ######################################
 ######### Main control code ##########
@@ -159,8 +159,6 @@ if __name__ == "__main__":
 	options = {
 		"DFS" : dfs,
 		"BFS" : bfs,
-		"Kruskal" : kruskal,
-		"Prim" : prim,
 	}
 
 	if ALGORITHM not in options.keys():
